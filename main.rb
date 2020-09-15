@@ -57,6 +57,19 @@ def my_any?(argument=nil)
     results
   end
 
+  # 6.my_count method
+
+def my_count(argument = nil)
+  counter = 0
+  if block_given?
+    my_each { |item| counter += 1 if yield(item) }
+  elsif !argument.nil?
+    my_each { |item| counter += 1 if argument == item }
+  else
+    counter = length
+  end
+  counter
+end
 
 
 end
@@ -74,3 +87,4 @@ include Enumerable
 #puts myarray.my_all?
 #puts [1,2,3,nil].my_any?
 # puts myarray.my_select{|item| item<10}
+#puts myarray.my_count(6)
