@@ -1,6 +1,7 @@
+# rubocop:disable Metrics/ModuleLength
+# rubocop: disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 module Enumerable
   #----------my_each method-----------
-
   def my_each
     return to_enum unless block_given?
 
@@ -14,7 +15,6 @@ module Enumerable
   end
 
   #----------#my_each_with_index-----------
-
   def my_each_with_index
     return to_enum unless block_given?
 
@@ -28,7 +28,6 @@ module Enumerable
   end
 
   #----------#my_all-----------
-
   def my_all?(arg = nil)
     if block_given?
       my_each { |item| return false if yield(item) == false }
@@ -44,7 +43,6 @@ module Enumerable
     end
     true
   end
-
   #----------#my_any-----------
 
   def my_any?(argument = nil)
@@ -69,15 +67,13 @@ module Enumerable
     return to_enum unless block_given?
 
     results = []
-    to_a.my_each { |x| results.push(x) if yield x }
+    to_a.my_each { |item| results.push(item) if yield item }
     results
   end
 
   #----------#my_count-----------
-
   def my_count(argument = nil)
     counter = 0
-
     if block_given?
       to_a.my_each { |item| counter += 1 if yield(item) }
     elsif !argument.nil?
@@ -89,7 +85,6 @@ module Enumerable
   end
 
   #----------#my_none-----------
-
   def my_none?(argument = nil, &block)
     !my_any?(argument, &block)
   end
@@ -110,22 +105,33 @@ module Enumerable
 
   #----------#my_inject-----------
 
-  def my_inject(*argument)
-    accumulator = argument[0] if argument[0].is_a?(Integer)
-    operator = argument[0].is_a?(Symbol) ? argument[0] : argument[1]
-
-    if operator
-      my_each { |item| accumulator = accumulator ? accumulator.send(operator, item) : item }
-      return accumulator
+  def my_inject(num = nil, sym = nil)
+    if block_given?
+      accumulator = num
+      my_each do |item|
+        accumulator = accumulator.nil? ? item : yield(accumulator, item)
+      end
+      accumulator
+    elsif !num.nil? && (num.is_a?(Symbol) || num.is_a?(String))
+      accumulator = nil
+      my_each do |item|
+        accumulator = accumulator.nil? ? item : accumulator.send(num, item)
+      end
+      accumulator
+    elsif !sym.nil? && (sym.is_a?(Symbol) || sym.is_a?(String))
+      accumulator = num
+      my_each do |item|
+        accumulator = accumulator.nil? ? item : accumulator.send(sym, item)
+      end
+      accumulator
     end
-    my_each { |item| accumulator = accumulator ? yield(accumulator, item) : item }
-    accumulator
   end
+end
+# rubocop:enable Metrics/ModuleLength
+# rubocop: enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 
-  #----------#my_multiply_els-----------
-  def multiply_els
-    my_inject(:*)
-  end
+def multiply_els(arr)
+  arr.my_inject { |result, element| result * element }
 end
 
 # start of testing
@@ -138,10 +144,10 @@ end
 # puts [1,21,1,3,45,13,5,12,nil].my_all?{|item| item<50}
 # puts [1,2,3,nil].my_any?
 # puts myarray.my_select{|item| item<10}
-# puts myarray.my_count(6)
+# puts (1...5).my_count(3)
 # puts myarray.my_none?
 # puts myarray.my_map {|item| item*5}
 # myproc=Proc.new{|item| item+20}
 # puts myarray.my_map(&myproc)
-# puts (1..20).my_inject(3){|result, element| result * element}
-# puts myarray.my_inject(:*)
+# puts (1..10).my_inject(5){|result, element| result * element}
+# puts multiply_els(myarray)
