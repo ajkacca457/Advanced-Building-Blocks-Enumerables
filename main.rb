@@ -49,6 +49,16 @@ def my_any?(argument=nil)
   end
 
 
+  # 5.my_select method
+
+  def my_select
+    results = []
+    my_each { |x| results.push(x) if yield x }
+    results
+  end
+
+
+
 end
 
 #start of testing
@@ -63,3 +73,4 @@ include Enumerable
 #puts myarray.my_each_with_index {|item,index| puts"#{index} is #{item} "}
 #puts myarray.my_all?
 #puts [1,2,3,nil].my_any?
+# puts myarray.my_select{|item| item<10}
