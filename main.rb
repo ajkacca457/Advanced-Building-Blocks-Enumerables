@@ -71,6 +71,13 @@ def my_count(argument = nil)
   counter
 end
 
+# 7.my_none method
+
+def my_none?(argument = nil, &block)
+  !my_any?(argument, &block)
+end
+
+
 
 end
 
@@ -88,3 +95,4 @@ include Enumerable
 #puts [1,2,3,nil].my_any?
 # puts myarray.my_select{|item| item<10}
 #puts myarray.my_count(6)
+# puts myarray.my_none?
