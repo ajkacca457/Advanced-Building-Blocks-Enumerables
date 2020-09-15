@@ -77,6 +77,17 @@ def my_none?(argument = nil, &block)
   !my_any?(argument, &block)
 end
 
+  # 8.my_map method
+
+  def my_map(proc = nil)
+    results = []
+    if proc.nil?
+    self.my_each { |item| results.push(yield(item)) }
+  else
+        self.my_each { |item| results.push( yield(item))}
+      end
+    results
+  end
 
 
 end
@@ -89,10 +100,13 @@ include Enumerable
 
 #myarray=[1,6,3,4,5,6,12]
 
-#puts myarray.my_each {|item| puts item*2}
-#puts myarray.my_each_with_index {|item,index| puts"#{index} is #{item} "}
-#puts myarray.my_all?
-#puts [1,2,3,nil].my_any?
+# puts myarray.my_each {|item| puts item*2}
+# puts myarray.my_each_with_index {|item,index| puts"#{index} is #{item} "}
+# puts myarray.my_all?
+# puts [1,2,3,nil].my_any?
 # puts myarray.my_select{|item| item<10}
-#puts myarray.my_count(6)
+# puts myarray.my_count(6)
 # puts myarray.my_none?
+# puts myarray.my_map {|item| item*5}
+# myproc=Proc.new{|item| item+20}
+# puts myarray.my_map(&myproc)
