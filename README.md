@@ -1,4 +1,4 @@
-# Advanced-Building-Blocks-Enumerables
+# Advanced-Building-Blocks---Enumerable
 
 This is the second ruby project that required us to recreate some of the methods from enumerable module.
 
@@ -30,7 +30,7 @@ $ cd <folder>
 ```
 
 ```
-$ git clone https://github.com/ajkacca457/Advanced-Building-Blocks-Enumerables
+$ git clone https://github.com/ajkacca457/Advanced-Building-Blocks---Enumerables.git
 ```
 
 ## Authors
