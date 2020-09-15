@@ -21,5 +21,19 @@ module Enumerable
       index += 1
     end
   end
-  
+
+  # 3.my_all method
+
+  def my_all?(argument = nil)
+    result = true
+
+    if argument.nil? && !block_given?
+      my_each { |item| result = false if item.nil? || !item }
+    else
+      my_each { |item| result = false unless yield(item) }
+    end
+    result
+  end
+
+
 end
