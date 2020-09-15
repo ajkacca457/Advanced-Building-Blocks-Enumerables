@@ -81,12 +81,10 @@ module Enumerable
     if proc.nil?
       my_each { |item| results.push(yield(item)) }
     else
-      my_each { |item| results.push(yield(item))}
+      my_each { |item| results.push(proc.call(item)) }
     end
     results
   end
-<<<<<<< HEAD
-=======
 
   # 9.my_inject method
 
@@ -106,15 +104,11 @@ module Enumerable
   def multiply_els
     my_inject(:*)
   end
-
->>>>>>> fbb1147fc767ba89fc3bd48c8cfbe648d76d36af
 end
 
 # start of testing
 
-include Enumerable
-
-# myarray=[1,6,3,4,5,6,12]
+# myarray = [1, 6, 3, 4, 5, 6, 12]
 
 # puts myarray.my_each {|item| puts item*2}
 # puts myarray.my_each_with_index {|item,index| puts"#{index} is #{item} "}
