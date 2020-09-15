@@ -35,5 +35,31 @@ module Enumerable
     result
   end
 
+   # 4.my_any method
+
+def my_any?(argument=nil)
+
+  result=false
+  if argument.nil? && !block_given?
+    self.my_each{|item| result=true if item==nil||!item}
+  else
+    self.my_each{|item| result=true if yield(item)}
+  end
+  result
+  end
+
 
 end
+
+#start of testing
+
+
+include Enumerable
+
+
+#myarray=[1,6,3,4,5,6,12]
+
+#puts myarray.my_each {|item| puts item*2}
+#puts myarray.my_each_with_index {|item,index| puts"#{index} is #{item} "}
+#puts myarray.my_all?
+#puts [1,2,3,nil].my_any?
