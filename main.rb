@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module Enumerable
-
   # my_each method
 
   def my_each
@@ -35,19 +34,17 @@ module Enumerable
     result
   end
 
-   # 4.my_any method
+  # 4.my_any method
 
-def my_any?(argument=nil)
-
-  result=false
-  if argument.nil? && !block_given?
-    self.my_each{|item| result=true if item==nil||!item}
-  else
-    self.my_each{|item| result=true if yield(item)}
+  def my_any?(argument = nil)
+    result = false
+    if argument.nil? && !block_given?
+      my_each { |item| result = true if item.nil? || !item }
+    else
+      my_each { |item| result = true if yield(item) }
+    end
+    result
   end
-  result
-  end
-
 
   # 5.my_select method
 
@@ -59,46 +56,42 @@ def my_any?(argument=nil)
 
   # 6.my_count method
 
-def my_count(argument = nil)
-  counter = 0
-  if block_given?
-    my_each { |item| counter += 1 if yield(item) }
-  elsif !argument.nil?
-    my_each { |item| counter += 1 if argument == item }
-  else
-    counter = length
+  def my_count(argument = nil)
+    counter = 0
+    if block_given?
+      my_each { |item| counter += 1 if yield(item) }
+    elsif !argument.nil?
+      my_each { |item| counter += 1 if argument == item }
+    else
+      counter = length
+    end
+    counter
   end
-  counter
-end
 
-# 7.my_none method
+  # 7.my_none method
 
-def my_none?(argument = nil, &block)
-  !my_any?(argument, &block)
-end
+  def my_none?(argument = nil, &block)
+    !my_any?(argument, &block)
+  end
 
   # 8.my_map method
 
   def my_map(proc = nil)
     results = []
     if proc.nil?
-    self.my_each { |item| results.push(yield(item)) }
-  else
-        self.my_each { |item| results.push( yield(item))}
-      end
+      my_each { |item| results.push(yield(item)) }
+    else
+      my_each { |item| results.push(yield(item))}
+    end
     results
   end
-
-
 end
 
-#start of testing
-
+# start of testing
 
 include Enumerable
 
-
-#myarray=[1,6,3,4,5,6,12]
+# myarray=[1,6,3,4,5,6,12]
 
 # puts myarray.my_each {|item| puts item*2}
 # puts myarray.my_each_with_index {|item,index| puts"#{index} is #{item} "}
