@@ -85,6 +85,29 @@ module Enumerable
     end
     results
   end
+<<<<<<< HEAD
+=======
+
+  # 9.my_inject method
+
+  def my_inject(*argument)
+    accumulator = argument[0] if argument[0].is_a?(Integer)
+    operator = argument[0].is_a?(Symbol) ? argument[0] : argument[1]
+
+    if operator
+      my_each { |item| accumulator = accumulator ? accumulator.send(operator, item) : item }
+      return accumulator
+    end
+    my_each { |item| accumulator = accumulator ? yield(accumulator, item) : item }
+    accumulator
+  end
+
+  # 10.my_multiply_els method
+  def multiply_els
+    my_inject(:*)
+  end
+
+>>>>>>> fbb1147fc767ba89fc3bd48c8cfbe648d76d36af
 end
 
 # start of testing
@@ -103,3 +126,5 @@ include Enumerable
 # puts myarray.my_map {|item| item*5}
 # myproc=Proc.new{|item| item+20}
 # puts myarray.my_map(&myproc)
+# puts myarray.my_inject{|result, element| result * element}
+# puts myarray.my_inject(:*)
