@@ -29,27 +29,38 @@ module Enumerable
 
   #----------#my_all-----------
 
-  def my_all?(argument = nil)
-    result = true
-
-    if argument.nil? && !block_given?
-      my_each { |item| result = false if item.nil? || !item }
+  def my_all?(arg = nil)
+    if block_given?
+      my_each { |item| return false if yield(item) == false }
+      return true
+    elsif arg.nil?
+      my_each { |item| return false if item.nil? || item == false }
+    elsif !arg.nil? && (arg.is_a? Class)
+      my_each { |item| return false if item.class != item }
+    elsif !arg.nil? && arg.class == Regexp
+      my_each { |item| return false unless arg.match(item) }
     else
-      my_each { |item| result = false unless yield(item) }
+      my_each { |item| return false if item != arg }
     end
-    result
+    true
   end
 
   #----------#my_any-----------
 
   def my_any?(argument = nil)
-    result = false
-    if argument.nil? && !block_given?
-      my_each { |item| result = true if item.nil? || !item }
+    if block_given?
+      my_each { |item| return true if yield(item) }
+      false
+    elsif argument.nil?
+      my_each { |item| return true if item }
+    elsif !argument.nil? && (argument.is_a? Class)
+      my_each { |item| return true if item.class == argument }
+    elsif !argument.nil? && argument.class == Regexp
+      my_each { |item| return true if argument.match(item) }
     else
-      my_each { |item| result = true if yield(item) }
+      my_each { |item| return true if item == argument }
     end
-    result
+    false
   end
 
   #----------#my_select-----------
@@ -86,6 +97,8 @@ module Enumerable
   #----------#my_map-----------
 
   def my_map(proc = nil)
+    return to_enum unless block_given?
+
     results = []
     if proc.nil?
       my_each { |item| results.push(yield(item)) }
@@ -121,7 +134,8 @@ end
 
 # puts myarray.my_each {|item| puts item*2}
 # puts myarray.my_each_with_index {|item,index| puts"#{index} is #{item} "}
-# puts myarray.my_all?
+# puts [1,21,1,3,45,13,5,12,nil].my_all?
+# puts [1,21,1,3,45,13,5,12,nil].my_all?{|item| item<50}
 # puts [1,2,3,nil].my_any?
 # puts myarray.my_select{|item| item<10}
 # puts myarray.my_count(6)
@@ -129,5 +143,5 @@ end
 # puts myarray.my_map {|item| item*5}
 # myproc=Proc.new{|item| item+20}
 # puts myarray.my_map(&myproc)
-# puts myarray.my_inject{|result, element| result * element}
+# puts (1..20).my_inject(3){|result, element| result * element}
 # puts myarray.my_inject(:*)
