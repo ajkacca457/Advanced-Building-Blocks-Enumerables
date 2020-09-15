@@ -3,8 +3,8 @@ module Enumerable
 
   def my_each
     return to_enum unless block_given?
-  
-    i=0
+
+    i = 0
     array = to_a
     while i < array.length
       yield array[i]
@@ -13,20 +13,21 @@ module Enumerable
     self
   end
 
-#----------#my_each_with_index-----------
+  #----------#my_each_with_index-----------
 
-def my_each_with_index
-  return to_enum unless block_given?
-  i=0
-  array = to_a
-  while i< array.length
-    yield(array[i],i)
-    i += 1
+  def my_each_with_index
+    return to_enum unless block_given?
+
+    i = 0
+    array = to_a
+    while i < array.length
+      yield(array[i], i)
+      i += 1
+    end
+    self
   end
-  self
-end  
 
-#----------#my_all-----------
+  #----------#my_all-----------
 
   def my_all?(argument = nil)
     result = true
@@ -39,7 +40,7 @@ end
     result
   end
 
-#----------#my_any-----------
+  #----------#my_any-----------
 
   def my_any?(argument = nil)
     result = false
@@ -51,38 +52,38 @@ end
     result
   end
 
-#----------#my_select-----------
+  #----------#my_select-----------
 
   def my_select
     return to_enum unless block_given?
-    i=0
-    array = to_a
+
     results = []
-    my_each { |x| results.push(x) if yield x }
+    to_a.my_each { |x| results.push(x) if yield x }
     results
   end
 
-#----------#my_count-----------
+  #----------#my_count-----------
 
   def my_count(argument = nil)
     counter = 0
+
     if block_given?
-      my_each { |item| counter += 1 if yield(item) }
+      to_a.my_each { |item| counter += 1 if yield(item) }
     elsif !argument.nil?
-      my_each { |item| counter += 1 if argument == item }
+      to_a.my_each { |item| counter += 1 if argument == item }
     else
-      counter = length
+      counter = to_a.length
     end
     counter
   end
 
-#----------#my_none-----------
+  #----------#my_none-----------
 
   def my_none?(argument = nil, &block)
     !my_any?(argument, &block)
   end
 
-#----------#my_map-----------
+  #----------#my_map-----------
 
   def my_map(proc = nil)
     results = []
@@ -94,7 +95,7 @@ end
     results
   end
 
-#----------#my_inject-----------
+  #----------#my_inject-----------
 
   def my_inject(*argument)
     accumulator = argument[0] if argument[0].is_a?(Integer)
@@ -108,7 +109,7 @@ end
     accumulator
   end
 
-#----------#my_multiply_els-----------
+  #----------#my_multiply_els-----------
   def multiply_els
     my_inject(:*)
   end
