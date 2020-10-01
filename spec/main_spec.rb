@@ -12,11 +12,11 @@ RSpec.describe Enumerable do
   # my_each method
   describe '#my_each' do
     it 'when an array is given it loop through an array and return each item' do
-      expect(array.my_each { |item| item }). to equal(array.each { |item| item })
+      expect(array.my_each { |item| puts item }). to equal(array.each { |item| puts item })
     end
 
     it 'when a range is given it loop through the range and return each item' do
-      expect(range.my_each { |item| item }). to equal(range.each { |item| item })
+      expect(range.my_each { |item| puts item }). to equal(range.each { |item| puts item })
     end
 
     it 'when a block is not given it returns an enumerator' do
