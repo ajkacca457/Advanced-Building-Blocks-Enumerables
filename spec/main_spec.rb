@@ -61,4 +61,86 @@ RSpec.describe Enumerable do
       expect(array.my_select). to be_a(Enumerator)
     end
   end
+
+  # my_all?
+
+    describe '#my_all?' do
+      it "when an array is given then it loops through the array and return boolean value
+    based on the given condition, if all the items meet the requirement" do
+      expect(array.my_all? { |item| item < 0 }).to be_falsy
+    end
+
+      it "when an range is given then it loops through the range and return boolean value
+      based on the given condition, if all the items meet the requirement" do
+        expect(array.my_all? { |item| item > 0 }).to be_truthy
+      end
+
+      it "when a hash is given then it loops through the hash and return boolean value
+      based on the given condition, if all the value or key meet the requirement" do
+        expect(hash.my_all? { |_item, value| value > 0 }).to be_truthy
+      end
+
+      it "When a class is given as condition then it returns a boolean value if all the item are either
+       match the condition or do not match the condition" do
+         expect(array.my_all?(Numeric)).to be_truthy
+       end
+
+      it ' when an empty array is passed it returns a boolean value of true' do
+        expect([].my_all?).to be_truthy
+      end
+    end
+
+    # my_any?
+
+    describe '#my_any?' do
+      it "when an array is given then it loops through the array and return boolean value
+    based on the given condition, if any item meet the requirement" do
+      expect(array.my_any? { |item| item < 0 }).to be_falsy
+    end
+
+      it "when an range is given then it loops through the range and return boolean value
+      based on the given condition, if any item meet the requirement" do
+        expect(array.my_all? { |item| item > 0 }).to be_truthy
+      end
+
+      it "when a hash is given then it loops through the hash and return boolean value
+      based on the given condition, if any value or key meet the requirement" do
+        expect(hash.my_all? { |_item, value| value > 0 }).to be_truthy
+      end
+
+      it "When a class is given as condition then it returns a boolean value if any item is either
+       match the condition or do not match the condition" do
+         expect(array.my_all?(Numeric)).to be_truthy
+       end
+
+      it ' when an empty array is passed it returns a boolean value of true' do
+        expect([].my_all?).to be_truthy
+      end
+    end
+
+    # my_none?
+
+    describe '#my_none?' do
+      it "when an array of string is given then it loop through the array and returns the boolean value of true or false
+      based on the given condtion. If no item in the array match the condition then it returns true" do
+        expect(wordarray.my_none? { |word| word.size >= 5 }).to be_truthy
+      end
+
+      it 'when a case is given it returns true if case deosnt mathch with the element for every item.' do
+        expect([9, 7.14, 8.91, 42].my_none?(Float)).to be(false)
+      end
+
+      it 'when all the element in array are nil or false then it returns true' do
+        expect([nil, false].my_none?).to be(true)
+      end
+
+      it 'When there is no block given it returns true if no element of the array passed is equal to argument' do
+        expect(wordarray.my_none?(10)).to be(true)
+      end
+
+      it 'when an empty array is given then it returns true' do
+        expect([].my_none?).to be(true)
+      end
+    end
+
 end
