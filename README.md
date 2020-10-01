@@ -33,6 +33,15 @@ $ cd <folder>
 $ git clone https://github.com/ajkacca457/Advanced-Building-Blocks---Enumerables.git
 ```
 
+## Automated Test
+
+To run the test clone or download the project, open a terminal in the project directory and run the following:
+
+```ruby
+rspec ./spec/main_spec.rb
+```
+
+
 ## Authors
 
 👤 **Avijit Karmaker**
