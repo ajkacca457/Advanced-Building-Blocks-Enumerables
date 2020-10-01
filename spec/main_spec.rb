@@ -27,15 +27,18 @@ RSpec.describe Enumerable do
   # my_each_with_index method
   describe 'my_each_with_index' do
     it 'when an array is given it loop through an array and return each item with index ' do
-      expect(array.my_each_with_index { |item, index| puts "#{item} is #{index}" }). to equal(array.each_with_index { |item, index| puts "#{item} is #{index}" })
+      expect(array.my_each_with_index { |item, index| puts "#{item} is #{index}" })
+        .to equal(array.each_with_index { |item, index| puts "#{item} is #{index}" })
     end
 
     it 'when an range is given it loop through the range and return each item with index ' do
-      expect(range.my_each_with_index { |item, index| puts "#{item} is #{index}" }). to equal(range.each_with_index { |item, index| puts "#{item} is #{index}" })
+      expect(range.my_each_with_index { |item, index| puts "#{item} is #{index}" })
+        .to equal(range.each_with_index { |item, index| puts "#{item} is #{index}" })
     end
 
     it 'when a hash is given it loop through the hash and return each item with index ' do
-      expect(hash.my_each_with_index { |item, index| puts "#{item} is #{index}" }). to equal(hash.each_with_index { |item, index| puts "#{item} is #{index}" })
+      expect(hash.my_each_with_index { |item, index| puts "#{item} is #{index}" })
+        .to equal(hash.each_with_index { |item, index| puts "#{item} is #{index}" })
     end
     it 'when a block is not given it returns an enumerator' do
       expect(array.my_each_with_index). to be_a(Enumerator)
@@ -186,7 +189,8 @@ RSpec.describe Enumerable do
       expect(array.my_count).to eql(array.length)
     end
 
-    it 'when a block is not given and a range is given then it counts the number of items that are present in the range.' do
+    it 'when a block is not given and a range is given then it counts
+    the number of items that are present in the range.' do
       expect(range.my_count).to eql(range.count)
     end
   end
