@@ -143,4 +143,52 @@ RSpec.describe Enumerable do
       end
     end
 
+  # my_map
+  describe '#my_map' do
+    it 'when an array is given it loops through the array and return a new array after
+    executing the given condition' do
+      expect(array.my_map { |item| item * 3 }).to eql([3, 6, 9, 12, 15, 18, 21])
+    end
+
+    it 'when a range is given it loops through the range and return a new array after
+    executing the given condition' do
+      expect(range.my_map { |item| item * 2 }).to eql([2, 4, 6, 8, 10, 12, 14, 16, 18])
+    end
+
+    it 'when a hash is given it loops through the hash and return a new array after
+    executing the given condition' do
+      expect(hash.my_map { |_item, value| value * 2 }).to eql([2000, 2400, 3000, 2600])
+    end
+
+    it 'when an proc is given it loops through the array and return a new array after
+    executing the given proc' do
+      expect([1, 2, 3, 4].my_map(&my_proc)).to eql([3, 6, 9, 12])
+    end
+
+    it 'when a block is not given then it return an enumerator' do
+      expect(array.my_map). to be_a(Enumerator)
+    end
+  end
+
+  # my_count
+
+  describe '#my_count' do
+    it 'when an array is given it returns the number of items in array after looping through the array.' do
+      expect(array.my_count(&:odd?)).to eql(4)
+    end
+
+    it "when an argument is given, it returns the number of items in the array
+      that are equal to item are counted. " do
+      expect(array.my_count(4)).to eql(1)
+    end
+
+    it 'when a block is not given then it counts the number of items that are present in the array.' do
+      expect(array.my_count).to eql(array.length)
+    end
+
+    it 'when a block is not given and a range is given then it counts the number of items that are present in the range.' do
+      expect(range.my_count).to eql(range.count)
+    end
+  end
+
 end
